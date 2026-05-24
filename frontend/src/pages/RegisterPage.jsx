@@ -35,14 +35,17 @@ function RegisterPage() {
             );
 
             alert("Registration successful 🚀");
-
             navigate("/login");
 
         } catch (error) {
 
-            console.log(error);
+            console.log(error.response);
 
-            alert("Registration failed");
+            alert(
+                error.response?.data?.message ||
+                JSON.stringify(error.response?.data) ||
+                "Registration failed"
+            );
         }
     };
 
