@@ -32,12 +32,6 @@ RUN touch database/database.sqlite
 # Install Laravel dependencies
 RUN composer install
 
-# Generate app key
-RUN php artisan key:generate
-
-# Run migrations
-RUN php artisan migrate --force
-
 # Expose port
 EXPOSE 10000
 
