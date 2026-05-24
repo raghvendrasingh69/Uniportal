@@ -6,7 +6,16 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     sqlite3 \
-    libsqlite3-dev
+    libsqlite3-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg && \
+    docker-php-ext-install gd pdo pdo_sqlite
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -14,14 +23,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
-# Copy project
+# Copy project files
 COPY . .
-
-# Install Laravel dependencies
-RUN composer install
 
 # Create SQLite database
 RUN touch database/database.sqlite
+
+# Install Laravel dependencies
+RUN composer install
 
 # Generate app key
 RUN php artisan key:generate
