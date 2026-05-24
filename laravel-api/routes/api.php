@@ -14,6 +14,10 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\PaymentController;
 
+Route::options('/{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
+
 /*
 |--------------------------------------------------------------------------
 | PUBLIC ROUTES
